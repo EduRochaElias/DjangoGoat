@@ -48,18 +48,12 @@ jobs:
         
   
   Veracode_SCA:
-    name: Scan repository with Veracode SCA
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - name: Veracode SCA
+        env:
+          SRCCLR_API_TOKEN: '${{ secrets.SRCCLR_API_TOKEN }}' # Lembrar de criar as credenciais no Secrets
+        run: |
+          curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s – scan --update-advisor --allow-dirty
 
-    - name: Run Veracode SCA
-      uses: veracode/veracode-sca@v2.1.10
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        quick: true
-        create-issues: true
-      env:
-        SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
