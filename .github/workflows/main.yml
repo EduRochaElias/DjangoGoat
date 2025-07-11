@@ -45,13 +45,21 @@ jobs:
           deleteIncompleteScan: false
           version: '${{ github.run_id }}'
           criticality: 'VeryHigh'
-          
-Veracode_SCA:
-        runs-on: ubuntu-latest
-        steps:
+        
+  
+  veracode-sca-task:
+    runs-on: ubuntu-latest
+    name: Scan repository with Veracode SCA
+
+    steps:
+      - name: Checkout
         uses: actions/checkout@v3
-        name: Veracode SCA
+        
+      - name: Run Veracode SCA
         env:
-          SRCCLR_API_TOKEN: ${{ secrets.SCA }} # Lembrar de criar as credenciais no Secrets
-        run: |
-          curl -sSL 'https://download.sourceclear.com/ci.sh' | bash -s – scan --update-advisor --allow-dirty
+          SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        uses: veracode/veracode-sca@v2.1.10
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          quick: true
+          create-issues: true 
