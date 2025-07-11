@@ -37,8 +37,8 @@ jobs:
       - name: Upload e Scan com Veracode
         uses: veracode/veracode-uploadandscan-action@master
         with:
-          vid: '${{ secrets.VeracodeID }}'
-          vkey: '${{ secrets.VeracodeKey }}'
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
           appname: 'Github Actions - ${{ github.repository }}'
           createsandbox: true
           filepath: 'veracode.zip'
